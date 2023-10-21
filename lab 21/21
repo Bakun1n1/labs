@@ -1,0 +1,134 @@
+c <- list(
+  type="cat",
+  name="Bars",
+  weight=5)
+class(c) <- "pet"
+print.pet <- function(pets)
+  {
+  cat(pets$name, "\n")
+  cat("Вес", pets$weight, "\n")
+  cat("Тип", pets$type, "\n")
+  }
+methods(,"pet")
+print.pet
+c
+cw <- list(
+  type="cow",
+  name="Mary",
+  weight=350,
+  hm="around home"
+)
+class(cw) <- c("hm", "pet")
+cw
+c
+dg <-  list(
+  type="dog",
+  name="Max",
+  weight=40 ,
+  hm="home" ,
+  poroda = "ovcharka"
+)
+class(dg) <- c("poroda","hm","pet")
+dg
+c
+cw
+#Auto
+setClass("Автомобиль",
+         slots = list(),
+         contains = "environment")
+setGeneric("ехать",
+           function(object) 
+             {
+             standardGeneric("ехать")
+           }
+           )
+setGeneric("гудеть",
+           function(object) 
+             {
+             standardGeneric("гудеть")
+           }
+           )
+setMethod("ехать",
+          signature(object = "Автомобиль"),
+          function(object) 
+            {
+            cat("I'm driving\n")
+          }
+          )
+
+setMethod("гудеть",
+          signature(object = "Автомобиль"),
+          function(object) 
+            {
+            cat("biiip-biiip!!\n")
+          }
+          )
+setClass("Дизельный_автомобиль",
+         slots = list(),
+         contains = "Автомобиль")
+
+setMethod("ехать",
+          signature(object = "Дизельный_автомобиль"),
+          function(object) 
+            {
+            cat("I'm driving on diesel fuel\n")
+          }
+          )
+
+setClass("Бензиновый_автомобиль",
+         slots = list(),
+         contains = "Автомобиль")
+
+setMethod("ехать",
+          signature(object = "Бензиновый_автомобиль"),
+          function(object) 
+            {
+            cat("I'm driving on gasoline\n")
+          }
+          )
+
+setClass("Электромобиль",
+         slots = list(),
+         contains = "Автомобиль")
+
+setMethod("ехать",
+          signature(object = "Электромобиль"),
+          function(object) 
+            {
+            cat("I'm driving on electricity\n")
+          }
+          )
+
+запуск_автомобилей <- function() {
+  выбор <- readline(prompt = "Какой класс автомобилей вас интересует? (Дизельный, Бензиновый, Электрический): ")
+  
+  if (tolower(выбор) == "дизельный") {
+    автомобиль <- new("Дизельный_автомобиль")
+  } else if (tolower(выбор) == "бензиновый") {
+    автомобиль <- new("Бензиновый_автомобиль")
+  } else if (tolower(выбор) == "электрический") {
+    автомобиль <- new("Электромобиль")
+  } else {
+    cat("Неверный выбор!\n")
+    return
+  }
+ 
+  cat("Родительские методы:\n")
+  ехать(автомобиль)
+  гудеть(автомобиль)
+  cat("Собственные методы:\n")
+  if (class(автомобиль) == "Дизельный_автомобиль") 
+    {
+    cat("Едет на солярке\n")
+  } 
+  else if (class(автомобиль) == "Бензиновый_автомобиль") 
+    {
+    cat("Едет на бензине\n")
+  } 
+  else if (class(автомобиль) == "Электромобиль") 
+    {
+    cat("Едет на электричестве\n")
+  }
+}
+
+запуск_автомобилей()
